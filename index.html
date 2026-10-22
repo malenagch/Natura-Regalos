@@ -1,0 +1,642 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Portfolio Malena Gonzales Chaves</title>
+<script src="./vendor/react.js"></script>
+<script src="./vendor/react-dom.js"></script>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@300;400;500;600;700&amp;display=swap">
+<style>
+body{margin:0;background:#FFFDF9}
+html{scroll-behavior:smooth}
+a{color:#B4470C}a:hover{color:#7A2E0E}
+a:focus-visible,button:focus-visible{outline:2px solid #F06A1E;outline-offset:3px;border-radius:8px}
+
+@keyframes subir{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:none}}
+@keyframes rayas{from{background-position:0 0}to{background-position:220px 0}}
+@keyframes linea{from{transform:scaleY(0)}to{transform:scaleY(1)}}
+@keyframes entra{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+@keyframes rebota{0%,100%{transform:translateY(0)}50%{transform:translateY(6px)}}
+.rayas{background-image:repeating-linear-gradient(112deg,rgba(201,221,92,.12) 0 1.5px,rgba(201,221,92,0) 1.5px 28px);animation:rayas 18s linear infinite}
+.carga{animation:entra .9s cubic-bezier(.22,1,.36,1) both}
+.carga.d1{animation-delay:.12s}.carga.d2{animation-delay:.26s}.carga.d3{animation-delay:.4s}
+.flecha{display:inline-block;animation:rebota 1.6s ease-in-out infinite}
+@supports (animation-timeline: view()){
+  .aparece{animation:subir linear both;animation-timeline:view();animation-range:entry 0% cover 22%}
+  .crece{transform-origin:top;animation:linea linear both;animation-timeline:view();animation-range:entry 10% exit 60%}
+}
+
+/* ---------- portada: el nombre crece y abre la siguiente pantalla ---------- */
+.ex-track{position:relative;height:260vh}
+.ex-stage{position:sticky;top:0;height:100vh;overflow:hidden}
+.ex-frame{position:absolute;inset:0;z-index:1;clip-path:inset(0 0 0 0)}
+.ex-intro{position:absolute;inset:0;z-index:3}
+@supports (animation-timeline: view()){
+  .ex-track{view-timeline-name:--abre}
+  .ex-nombre{animation:nombreCrece linear both;animation-timeline:--abre;animation-range:contain 0% contain 48%}
+  .ex-sale{animation:saleRapido linear both;animation-timeline:--abre;animation-range:contain 0% contain 12%}
+  .ex-frame{animation:abrir linear both;animation-timeline:--abre;animation-range:contain 14% contain 52%}
+  .ex-media{animation:zoom linear both;animation-timeline:--abre;animation-range:contain 14% contain 60%}
+  .ex-overlay{animation:overlayEntra linear both;animation-timeline:--abre;animation-range:contain 50% contain 72%}
+}
+@supports not (animation-timeline: view()){
+  .ex-track{height:auto}
+  .ex-stage{position:relative;height:auto;display:flex;flex-direction:column}
+  .ex-intro{position:relative;min-height:100vh;order:-1}
+  .ex-frame{position:relative;min-height:100vh}
+}
+@keyframes nombreCrece{0%{transform:scale(1);opacity:1;color:#1D1A17}45%{color:#F06A1E;opacity:1}100%{transform:scale(9);opacity:0;color:#F06A1E}}
+@keyframes saleRapido{from{opacity:1;transform:none}to{opacity:0;transform:translateY(-14px)}}
+@keyframes abrir{from{clip-path:inset(50% 50% 50% 50% round 999px)}to{clip-path:inset(0% 0% 0% 0% round 0px)}}
+@keyframes zoom{from{transform:scale(1.3)}to{transform:scale(1)}}
+@keyframes overlayEntra{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+
+/* ---------- acordeón de proyectos ---------- */
+.acordeon{display:flex;gap:12px;height:520px;perspective:1400px}
+.panel{position:relative;flex:1 1 0;min-width:0;overflow:hidden;border-radius:26px;transition:flex-grow .75s cubic-bezier(.22,1,.36,1),transform .75s cubic-bezier(.22,1,.36,1),box-shadow .75s;transform-style:preserve-3d;box-shadow:0 18px 40px -26px rgba(29,26,23,.55)}
+.panel .detalle{transition:opacity .5s .15s,transform .6s .15s cubic-bezier(.22,1,.36,1)}
+.panel .vertical{transition:opacity .35s}
+
+/* ---------- credencial ---------- */
+.credencial{transform-style:preserve-3d;transition:transform .8s cubic-bezier(.22,1,.36,1)}
+.cara{backface-visibility:hidden;-webkit-backface-visibility:hidden}
+
+/* ---------- micro-interacciones ---------- */
+.fila{transition:background-color .3s}
+.fila:hover{background-color:#F5EFE6}
+.btn{transition:transform .25s cubic-bezier(.22,1,.36,1),background-color .25s,color .25s}
+.btn:hover{transform:translateY(-2px)}
+.subraya{background-image:linear-gradient(currentColor,currentColor);background-size:0 1.5px;background-position:0 100%;background-repeat:no-repeat;transition:background-size .35s cubic-bezier(.22,1,.36,1)}
+.subraya:hover{background-size:100% 1.5px}
+.punto{transition:transform .3s}
+.etapa:hover .punto{transform:scale(1.4)}
+
+@supports (animation-timeline: view()){
+  .titulo{transform-origin:left center;animation:tituloCrece linear both;animation-timeline:view();animation-range:entry 0% cover 30%}
+}
+@keyframes tituloCrece{from{opacity:.1;transform:translateY(26px);color:#F06A1E}to{opacity:1;transform:none;color:#1D1A17}}
+.capa{position:absolute;inset:0;width:100%;height:100%;display:block;pointer-events:none}
+.flotante{position:fixed;right:max(16px,2.4vw);bottom:20px;z-index:45;display:flex;align-items:center;gap:12px;padding:6px 18px 6px 6px;border-radius:999px;background:rgba(255,253,249,0.94);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);box-shadow:0 14px 30px -16px rgba(29,26,23,.45);text-decoration:none;color:#1D1A17;transition:transform .3s cubic-bezier(.22,1,.36,1),box-shadow .3s}
+.flotante:hover{transform:translateY(-3px);box-shadow:0 20px 38px -16px rgba(29,26,23,.5);color:#1D1A17}
+.flotante .mas{max-width:0;overflow:hidden;white-space:nowrap;opacity:0;transition:max-width .5s cubic-bezier(.22,1,.36,1),opacity .3s}
+.flotante:hover .mas,.flotante:focus-visible .mas{max-width:220px;opacity:1}
+@supports (animation-timeline: scroll()){
+  .flotante{animation:flotanteEntra linear both;animation-timeline:scroll(root);animation-range:0% 6%}
+}
+@keyframes flotanteEntra{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:none}}
+@media (max-width:720px){
+  .acordeon{flex-direction:column;height:auto;perspective:none}
+  .panel{transform:none!important;min-height:120px}
+}
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  .ex-track{height:auto}
+  .ex-stage{position:relative;height:auto;display:flex;flex-direction:column}
+  .ex-intro{position:relative;min-height:100vh;order:-1}
+  .ex-frame{position:relative;min-height:100vh;clip-path:none}
+}
+</style>
+</helmet>
+
+<div style="font-family: 'Figtree', 'Helvetica Neue', Helvetica, Arial, sans-serif; color: #1D1A17; background: #FFFDF9; font-size: 17px; line-height: 1.55; -webkit-font-smoothing: antialiased; overflow-x: clip;">
+
+  <!-- NAV -->
+  <nav aria-label="Secciones" style="position: sticky; top: 0; z-index: 50; background: rgba(255,253,249,0.86); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-bottom: 1px solid rgba(231,224,214,0.8);">
+    <div style="max-width: 1200px; margin: 0 auto; padding: 10px max(20px, 4vw); display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap;">
+      <a href="#inicio" style="display: flex; align-items: center; gap: 10px; text-decoration: none; color: #1D1A17;">
+        <span style="font-size: 14px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase;">Malena Gonzales Chaves</span>
+      </a>
+      <div style="display: flex; align-items: center; gap: 2px; flex-wrap: wrap;">
+        <a class="subraya" href="#aptitudes" style="font-size: 15px; font-weight: 500; color: #3B3631; text-decoration: none; margin: 12px;">Aptitudes</a>
+        <a class="subraya" href="#recorrido" style="font-size: 15px; font-weight: 500; color: #3B3631; text-decoration: none; margin: 12px;">Recorrido</a>
+        <a class="subraya" href="#proyectos" style="font-size: 15px; font-weight: 500; color: #3B3631; text-decoration: none; margin: 12px;">Proyectos</a>
+        <a class="subraya" href="#contacto" style="font-size: 15px; font-weight: 500; color: #3B3631; text-decoration: none; margin: 12px;">Contacto</a>
+        <a class="btn" href="./assets/55f795012bedbc2b9b82591c36684ccb.pdf" target="_blank" rel="noopener" style="margin-left: 8px; display: inline-flex; align-items: center; min-height: 44px; padding: 0 20px; border-radius: 999px; background: #F06A1E; color: #FFFFFF; font-size: 15px; font-weight: 600; text-decoration: none;">Ver CV</a>
+      </div>
+    </div>
+  </nav>
+
+  <a class="flotante" href="#contacto" aria-label="Contactar a Malena Gonzales Chaves">
+    <img src="./assets/64ad26ae59e4853b66a7a18a1c1ea8fa.jpg" alt="" style="width: 44px; height: 44px; border-radius: 50%; object-fit: cover; display: block;">
+    <span style="display: flex; flex-direction: column; line-height: 1.2;">
+      <span style="font-size: 14px; font-weight: 700; letter-spacing: -0.01em;">Malena Gonzales Chaves</span>
+      <span style="font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #B4470C;">Escribime <span class="mas">· malena.gch@gmail.com</span> →</span>
+    </span>
+  </a>
+
+  <!-- PORTADA: el nombre crece y abre la siguiente pantalla -->
+  <section id="inicio" class="ex-track" style="margin-top: -65px;">
+    <div class="ex-stage" style="background: #FFFDF9;">
+      <canvas ref="{{ puntosRef }}" aria-hidden="true" style="position: absolute; inset: 0; width: 100%; height: 100%; display: block; z-index: 0;"></canvas>
+
+      <div class="ex-frame">
+        <div class="ex-media" style="position: absolute; inset: 0; background: linear-gradient(160deg, #F7893A 0%, #F06A1E 50%, #D9560F 100%);">
+          <canvas class="capa" ref="{{ puntos2Ref }}" aria-hidden="true"></canvas>
+        </div>
+        <div class="ex-overlay" style="position: relative; z-index: 2; height: 100%; min-height: 100vh; box-sizing: border-box; max-width: 1200px; margin: 0 auto; padding: 104px max(20px, 4vw) 48px; display: flex; flex-direction: column; justify-content: center; gap: 26px; color: #FFF4EA;">
+          <div style="align-self: flex-start; display: inline-flex; align-items: center; padding: 10px 18px; border-radius: 999px; background: rgba(255,253,249,0.92); box-shadow: 0 10px 24px -16px rgba(29,26,23,0.45); font-size: 12px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: #B4470C;">Comunicación · Marketing · Análisis</div>
+          <h2 style="margin: 0; font-size: clamp(36px, 5vw, 70px); font-weight: 700; line-height: 1.0; letter-spacing: -0.04em; color: #FFFFFF; text-wrap: balance; max-width: 900px;">Marketing de marca y producto, con mirada <b style="font-weight: 700;">analítica</b>.</h2>
+          <p style="margin: 0; font-size: 19px; line-height: 1.6; max-width: 60ch;">Soy Licenciada en Comunicación Social y trabajé en marketing en L'Oréal y en Natura&amp;Avon, con alcance en siete mercados de LATAM. El Máster en Marketing Digital y mis prácticas en PROEDUCA me sumaron una mirada más analítica: leer datos, investigar el mercado y convertir lo que encuentro en propuestas concretas.</p>
+          <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+            <a class="btn" href="#recorrido" style="display: inline-flex; align-items: center; min-height: 48px; padding: 0 26px; border-radius: 999px; background: #FFF7F0; color: #B4470C; font-size: 16px; font-weight: 600; text-decoration: none;">Ver recorrido</a>
+            <a class="btn" href="#contacto" style="display: inline-flex; align-items: center; min-height: 48px; padding: 0 26px; border-radius: 999px; border: 1.5px solid rgba(255,247,240,0.8); color: #FFF7F0; font-size: 16px; font-weight: 600; text-decoration: none;">Contacto</a>
+          </div>
+          <dl style="margin: 8px 0 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px 40px; border-top: 1px solid rgba(255,247,240,0.4); padding-top: 24px; max-width: 900px;">
+            <div style="display: flex; flex-direction: column-reverse; gap: 6px;">
+              <dt style="font-size: 14px; line-height: 1.45; color: #FFE3CC;">mercados de LATAM y Europa en mi experiencia</dt>
+              <dd style="margin: 0; font-size: 38px; font-weight: 700; line-height: 1; letter-spacing: -0.03em; color: #FFFFFF;">8</dd>
+            </div>
+            <div style="display: flex; flex-direction: column-reverse; gap: 6px;">
+              <dt style="font-size: 14px; line-height: 1.45; color: #FFE3CC;">inglés, Cambridge Proficiency (CPE)</dt>
+              <dd style="margin: 0; font-size: 38px; font-weight: 700; line-height: 1; letter-spacing: -0.03em; color: #FFFFFF;">C2</dd>
+            </div>
+            <div style="display: flex; flex-direction: column-reverse; gap: 6px;">
+              <dt style="font-size: 14px; line-height: 1.45; color: #FFE3CC;">disponibilidad, desde CABA</dt>
+              <dd style="margin: 0; font-size: 38px; font-weight: 700; line-height: 1; letter-spacing: -0.03em; color: #FFFFFF;">Inmediata</dd>
+            </div>
+          </dl>
+        </div>
+      </div>
+
+      <div class="ex-intro" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 26px; padding: 96px max(20px, 4vw) 48px; box-sizing: border-box; text-align: center; pointer-events: none;">
+        <div class="ex-nombre" style="transform-origin: 50% 50%; will-change: transform;">
+          <h1 class="carga d1" style="margin: 0; font-size: clamp(54px, 9.6vw, 148px); font-weight: 700; line-height: 0.92; letter-spacing: -0.045em; text-wrap: balance;">Malena<br>Gonzales Chaves</h1>
+        </div>
+        <div class="ex-sale"><div class="carga d2" style="font-size: clamp(17px, 1.7vw, 22px); font-weight: 500; color: #3B3631;">Analista Sr de Marketing de Producto – Regalos</div></div>
+        <div class="ex-sale" style="margin-top: 18px;"><div class="carga d3" style="display: inline-flex; align-items: center; gap: 10px; padding: 12px 22px; border-radius: 999px; background: rgba(255,253,249,0.82); box-shadow: 0 10px 24px -16px rgba(29,26,23,0.45); font-size: 12px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: #B4470C;">Deslizá para conocerme <span class="flecha" aria-hidden="true">↓</span></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- APTITUDES -->
+  <section id="aptitudes" style="position: relative; z-index: 1; max-width: 1200px; margin: 0 auto; padding: 112px max(20px, 4vw) 48px; display: flex; flex-direction: column; gap: 40px;">
+    <div class="aparece" style="display: flex; flex-direction: column; gap: 16px; max-width: 760px;">
+      <div style="align-self: flex-start; display: inline-flex; align-items: center; padding: 10px 18px; border-radius: 999px; background: rgba(255,253,249,0.92); box-shadow: 0 10px 24px -16px rgba(29,26,23,0.45); font-size: 12px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: #B4470C;">Perfil</div>
+      <h2 class="titulo" style="margin: 0; font-size: clamp(36px, 4.8vw, 64px); font-weight: 700; line-height: 1.0; letter-spacing: -0.04em; text-wrap: balance;">Aptitudes para el <b style="font-weight: 700; color: #F06A1E;">puesto</b>.</h2>
+      <p style="margin: 0; font-size: 18px; color: #5F584F;">Experiencia y formación vinculadas a las responsabilidades de un rol de marketing de producto.</p>
+    </div>
+
+    <div style="display: flex; flex-direction: column; border-top: 1px solid #E7E0D6;">
+      <div class="fila aparece" style="display: flex; flex-wrap: wrap; gap: 12px 48px; padding: 28px 20px; border-bottom: 1px solid #E7E0D6; border-radius: 18px;">
+        <div style="flex: 1 1 280px; min-width: 0; font-size: 22px; font-weight: 500; line-height: 1.3; letter-spacing: -0.01em;">Planificación y coordinación de campañas</div>
+        <div style="flex: 2 1 420px; min-width: 0; display: flex; flex-direction: column; gap: 8px;">
+          <p style="margin: 0; color: #3B3631;">Planificación de las campañas de Perfumería y Maquillaje de Natura y Avon en siete mercados de LATAM, en articulación con Producción, Media, Retail y Social.</p>
+          <span style="font-size: 13px; font-weight: 600; letter-spacing: 0.06em; color: #B4470C;">Natura&amp;Avon</span>
+        </div>
+      </div>
+      <div class="fila aparece" style="display: flex; flex-wrap: wrap; gap: 12px 48px; padding: 28px 20px; border-bottom: 1px solid #E7E0D6; border-radius: 18px;">
+        <div style="flex: 1 1 280px; min-width: 0; font-size: 22px; font-weight: 500; line-height: 1.3; letter-spacing: -0.01em;">Conocimiento operativo de producto</div>
+        <div style="flex: 2 1 420px; min-width: 0; display: flex; flex-direction: column; gap: 8px;">
+          <p style="margin: 0; color: #3B3631;">Seguimiento de stock y ventas por SKU, alta de lanzamientos y renovaciones de packaging, packs promocionales y listas de precios.</p>
+          <span style="font-size: 13px; font-weight: 600; letter-spacing: 0.06em; color: #C2416A;">L'Oréal · Matrix</span>
+        </div>
+      </div>
+      <div class="fila aparece" style="display: flex; flex-wrap: wrap; gap: 12px 48px; padding: 28px 20px; border-bottom: 1px solid #E7E0D6; border-radius: 18px;">
+        <div style="flex: 1 1 280px; min-width: 0; font-size: 22px; font-weight: 500; line-height: 1.3; letter-spacing: -0.01em;">Análisis de datos e investigación de mercado</div>
+        <div style="flex: 2 1 420px; min-width: 0; display: flex; flex-direction: column; gap: 8px;">
+          <p style="margin: 0; color: #3B3631;">Lectura de resultados frente a objetivos e investigación de competencia y contexto para proponer planes de acción a otras áreas.</p>
+          <span style="font-size: 13px; font-weight: 600; letter-spacing: 0.06em; color: #B4470C;">PROEDUCA · Máster en Marketing Digital</span>
+        </div>
+      </div>
+      <div class="fila aparece" style="display: flex; flex-wrap: wrap; gap: 12px 48px; padding: 28px 20px; border-bottom: 1px solid #E7E0D6; border-radius: 18px;">
+        <div style="flex: 1 1 280px; min-width: 0; font-size: 22px; font-weight: 500; line-height: 1.3; letter-spacing: -0.01em;">Comprensión del consumidor</div>
+        <div style="flex: 2 1 420px; min-width: 0; display: flex; flex-direction: column; gap: 8px;">
+          <p style="margin: 0; color: #3B3631;">Entrevistas a clientes, pruebas de usabilidad y propuestas de marca y lanzamiento reconocidas en L'Oréal Brandstorm y el Puma Challenge.</p>
+          <span style="font-size: 13px; font-weight: 600; letter-spacing: 0.06em; color: #8A5A06;">Máster y competencias</span>
+        </div>
+      </div>
+      <div class="fila aparece" style="display: flex; flex-wrap: wrap; gap: 12px 48px; padding: 28px 20px; border-bottom: 1px solid #E7E0D6; border-radius: 18px;">
+        <div style="flex: 1 1 280px; min-width: 0; font-size: 22px; font-weight: 500; line-height: 1.3; letter-spacing: -0.01em;">Comunicación y trabajo entre áreas</div>
+        <div style="flex: 2 1 420px; min-width: 0; display: flex; flex-direction: column; gap: 8px;">
+          <p style="margin: 0; color: #3B3631;">Formación en Comunicación Social y experiencia articulando equipos de distintas áreas y países, sin autoridad directa.</p>
+          <span style="font-size: 13px; font-weight: 600; letter-spacing: 0.06em; color: #5F584F;">Universidad Austral · Natura&amp;Avon · PROEDUCA</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div aria-hidden="true" style="position: relative; height: 180px; margin-top: 24px;"><canvas class="capa" ref="{{ puntos3Ref }}"></canvas></div>
+
+  <!-- RECORRIDO -->
+  <section id="recorrido" style="position: relative; z-index: 1; max-width: 1200px; margin: 0 auto; padding: 72px max(20px, 4vw) 48px; display: flex; flex-direction: column; gap: 48px;">
+    <div class="aparece" style="display: flex; flex-direction: column; gap: 16px;">
+      <div style="align-self: flex-start; display: inline-flex; align-items: center; padding: 10px 18px; border-radius: 999px; background: rgba(255,253,249,0.92); box-shadow: 0 10px 24px -16px rgba(29,26,23,0.45); font-size: 12px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: #B4470C;">Recorrido</div>
+      <h2 class="titulo" style="margin: 0; font-size: clamp(36px, 4.8vw, 64px); font-weight: 700; line-height: 1.0; letter-spacing: -0.04em; text-wrap: balance;">De la comunicación al marketing, <b style="font-weight: 700; color: #F06A1E;">paso a paso</b>.</h2>
+    </div>
+
+    <div style="display: flex; flex-wrap: wrap; gap: 40px; align-items: flex-start;">
+      <div style="flex: 1 1 620px; min-width: 0; position: relative; display: flex; flex-direction: column; gap: 20px; padding-left: 36px;">
+        <div class="crece" aria-hidden="true" style="position: absolute; left: 9px; top: 12px; bottom: 12px; width: 2px; background: #E7E0D6;"></div>
+
+        <article class="etapa aparece" style="position: relative; display: flex; flex-wrap: wrap; gap: 8px 36px; padding: 8px 0 28px; border-bottom: 1px solid #E7E0D6;">
+          <span class="punto" aria-hidden="true" style="position: absolute; left: -34px; top: 14px; width: 16px; height: 16px; border-radius: 50%; background: #E2A02A; box-shadow: 0 0 0 5px #FFFDF9;"></span>
+          <div style="flex: 0 0 160px; display: flex; flex-direction: column; gap: 4px;">
+            <div style="font-size: 28px; font-weight: 700; letter-spacing: -0.03em; line-height: 1.05;">2020 — 2023</div>
+            <div style="font-size: 13px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #8A5A06;">Comunicación</div>
+          </div>
+          <div style="flex: 1 1 380px; min-width: 0; display: flex; flex-direction: column; gap: 10px;">
+            <h3 style="margin: 0; font-size: 24px; font-weight: 500; line-height: 1.2; letter-spacing: -0.015em;">Contenido, comunidad y marca propia</h3>
+            <div style="font-size: 15px; color: #5F584F;">Laura Di Cola / Sin Desperdicio · The Innova Room · Bombay Clothing</div>
+            <ul style="margin: 4px 0 0; padding-left: 20px; display: flex; flex-direction: column; gap: 8px; font-size: 16px; color: #3B3631;">
+              <li>Contenidos, edición audiovisual, newsletters y comunidades; investigación de marcas afines y propuestas de colaboración.</li>
+              <li>Manual de marca y estrategia de contenidos en The Innova Room.</li>
+              <li>Creación de Bombay Clothing, mi marca de ropa: web, redes, stock, precios y ventas.</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="etapa aparece" style="position: relative; display: flex; flex-wrap: wrap; gap: 8px 36px; padding: 8px 0 28px; border-bottom: 1px solid #E7E0D6;">
+          <span class="punto" aria-hidden="true" style="position: absolute; left: -34px; top: 14px; width: 16px; height: 16px; border-radius: 50%; background: #E2738C; box-shadow: 0 0 0 5px #FFFDF9;"></span>
+          <div style="flex: 0 0 160px; display: flex; flex-direction: column; gap: 4px;">
+            <div style="font-size: 28px; font-weight: 700; letter-spacing: -0.03em; line-height: 1.05;">2023 — 2024</div>
+            <div style="font-size: 13px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #C2416A;">L'Oréal</div>
+          </div>
+          <div style="flex: 1 1 380px; min-width: 0; display: flex; flex-direction: column; gap: 10px;">
+            <h3 style="margin: 0; font-size: 24px; font-weight: 500; line-height: 1.2; letter-spacing: -0.015em;">Pasante de Marketing · Matrix</h3>
+            <div style="font-size: 15px; color: #5F584F;">Argentina · ago 2023 – ago 2024</div>
+            <ul style="margin: 4px 0 0; padding-left: 20px; display: flex; flex-direction: column; gap: 8px; font-size: 16px; color: #3B3631;">
+              <li>Seguimiento de stock y ventas por SKU: rotación, vencimientos y acciones definidas con la manager.</li>
+              <li>Alta de lanzamientos y renovaciones de packaging, y carga de packs y combos promocionales.</li>
+              <li>Listas de precios para ventas y distribuidores, y propuesta para estandarizar las publicaciones en Mercado Libre.</li>
+            </ul>
+            <div style="font-size: 14px; color: #5F584F;">SAP · Apollo · Cosmo · Nodum · Excel</div>
+          </div>
+        </article>
+
+        <article class="etapa aparece" style="position: relative; display: flex; flex-wrap: wrap; gap: 8px 36px; padding: 8px 0 28px; border-bottom: 1px solid #E7E0D6;">
+          <span class="punto" aria-hidden="true" style="position: absolute; left: -34px; top: 14px; width: 16px; height: 16px; border-radius: 50%; background: #F06A1E; box-shadow: 0 0 0 5px #FFFDF9;"></span>
+          <div style="flex: 0 0 160px; display: flex; flex-direction: column; gap: 4px;">
+            <div style="font-size: 28px; font-weight: 700; letter-spacing: -0.03em; line-height: 1.05;">2024 — 2025</div>
+            <div style="font-size: 13px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #B4470C;">Natura&amp;Avon</div>
+          </div>
+          <div style="flex: 1 1 380px; min-width: 0; display: flex; flex-direction: column; gap: 10px;">
+            <h3 style="margin: 0; font-size: 24px; font-weight: 500; line-height: 1.2; letter-spacing: -0.015em;">Analista Sr. Comunicación y Planeamiento Regional</h3>
+            <div style="font-size: 15px; color: #5F584F;">Perfumería y Maquillaje · Argentina, Chile, Colombia, Perú, México, Ecuador y CARD · ago 2024 – sep 2025</div>
+            <ul style="margin: 4px 0 0; padding-left: 20px; display: flex; flex-direction: column; gap: 8px; font-size: 16px; color: #3B3631;">
+              <li>Coordiné la planificación de las campañas de Perfumería y Maquillaje de Natura y Avon: cronogramas, roadmaps, materiales, responsables y plazos.</li>
+              <li>Organicé, en forma rotativa, la agenda de briefing de las revistas de Natura y Avon.</li>
+              <li>Di seguimiento a las campañas con cada área y coordiné las reuniones de post-campaña.</li>
+            </ul>
+            <div style="font-size: 14px; color: #5F584F;">Google Workspace · Google Sites · PowerPoint</div>
+          </div>
+        </article>
+
+        <article class="etapa aparece" style="position: relative; display: flex; flex-wrap: wrap; gap: 8px 36px; padding: 8px 0 28px; border-bottom: 1px solid #E7E0D6;">
+          <span class="punto" aria-hidden="true" style="position: absolute; left: -34px; top: 14px; width: 16px; height: 16px; border-radius: 50%; background: #5F584F; box-shadow: 0 0 0 5px #FFFDF9;"></span>
+          <div style="flex: 0 0 160px; display: flex; flex-direction: column; gap: 4px;">
+            <div style="font-size: 28px; font-weight: 700; letter-spacing: -0.03em; line-height: 1.05;">2025 — 2026</div>
+            <div style="font-size: 13px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #5F584F;">Posgrado</div>
+          </div>
+          <div style="flex: 1 1 380px; min-width: 0; display: flex; flex-direction: column; gap: 10px;">
+            <h3 style="margin: 0; font-size: 24px; font-weight: 500; line-height: 1.2; letter-spacing: -0.015em;">Máster en Marketing Digital</h3>
+            <div style="font-size: 15px; color: #5F584F;">Universidad Villanueva, España · oct 2025 – jun 2026</div>
+            <ul style="margin: 4px 0 0; padding-left: 20px; display: flex; flex-direction: column; gap: 8px; font-size: 16px; color: #3B3631;">
+              <li>Estrategia digital, analítica, SEO/SEM y funnel de conversión.</li>
+              <li>Proyecto final: investigación con clientes y prototipo web para La Dicha Marbana.</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="etapa aparece" style="position: relative; display: flex; flex-wrap: wrap; gap: 8px 36px; padding: 8px 0 28px;">
+          <span class="punto" aria-hidden="true" style="position: absolute; left: -34px; top: 14px; width: 16px; height: 16px; border-radius: 50%; background: #F06A1E; box-shadow: 0 0 0 5px #FFFDF9;"></span>
+          <div style="flex: 0 0 160px; display: flex; flex-direction: column; gap: 4px;">
+            <div style="font-size: 28px; font-weight: 700; letter-spacing: -0.03em; line-height: 1.05;">2026</div>
+            <div style="font-size: 13px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #B4470C;">PROEDUCA · UNIR</div>
+          </div>
+          <div style="flex: 1 1 380px; min-width: 0; display: flex; flex-direction: column; gap: 10px;">
+            <h3 style="margin: 0; font-size: 24px; font-weight: 500; line-height: 1.2; letter-spacing: -0.015em;">Prácticas Paid Media · Facultad de Ingeniería</h3>
+            <div style="font-size: 15px; color: #5F584F;">España, Colombia y Ecuador · mar – jul 2026</div>
+            <ul style="margin: 4px 0 0; padding-left: 20px; display: flex; flex-direction: column; gap: 8px; font-size: 16px; color: #3B3631;">
+              <li>Analicé el rendimiento de titulaciones frente a objetivos de leads, inscripciones y facturación.</li>
+              <li>Crucé esos datos con competencia y contexto de mercado para plantear hipótesis.</li>
+              <li>Propuse planes de acción que ejecutaba el equipo de Operativa, como puente entre Operativa y Negocio.</li>
+            </ul>
+            <div style="font-size: 14px; color: #5F584F;">Tableau · Power BI · Looker Studio · Google Ads · Claude</div>
+          </div>
+        </article>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- PROYECTOS -->
+  <section id="proyectos" style="max-width: 1200px; margin: 0 auto; padding: 72px max(20px, 4vw) 104px; display: flex; flex-direction: column; gap: 40px;">
+    <div class="aparece" style="display: flex; flex-direction: column; gap: 16px; max-width: 760px;">
+      <div style="align-self: flex-start; display: inline-flex; align-items: center; padding: 10px 18px; border-radius: 999px; background: rgba(255,253,249,0.92); box-shadow: 0 10px 24px -16px rgba(29,26,23,0.45); font-size: 12px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: #B4470C;">Proyectos</div>
+      <h2 class="titulo" style="margin: 0; font-size: clamp(36px, 4.8vw, 64px); font-weight: 700; line-height: 1.0; letter-spacing: -0.04em; text-wrap: balance;">Ideas de <b style="font-weight: 700; color: #F06A1E;">marca y producto</b>, llevadas a propuesta.</h2>
+      <p style="margin: 0; font-size: 18px; color: #5F584F;">Proyectos académicos, competencias y una marca propia. Son propuestas y prototipos: ninguno se lanzó comercialmente.</p>
+    </div>
+
+    <div style="position: relative;">
+    <div class="acordeon aparece">
+      <article class="panel" onMouseEnter="{{ p0.pick }}" style="flex-grow: {{ p0.grow }}; transform: {{ p0.tf }}; background: #F2B3C1; color: #4A1222;">
+        <div class="vertical" style="position: absolute; left: 24px; bottom: 28px; writing-mode: vertical-rl; transform: rotate(180deg); font-size: 22px; font-weight: 600; white-space: nowrap; opacity: {{ p0.vop }};">HÄBIT</div>
+        <div class="detalle" style="position: absolute; inset: 0; padding: 32px; display: flex; flex-direction: column; gap: 14px; opacity: {{ p0.op }}; transform: {{ p0.dt }};">
+          <div style="font-size: 13px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #9C2F52;">L'Oréal Brandstorm · finalista · 2023</div>
+          <h3 style="margin: auto 0 0; font-size: 38px; font-weight: 700; line-height: 1.06; letter-spacing: -0.025em; color: #FFFFFF;">GarnierLuxe → <b style="font-weight: 700;">HÄBIT</b></h3>
+          <p style="margin: 0; font-size: 16px; line-height: 1.55; max-width: 46ch;">Beauty-tech con IA y personalización capilar: app de diagnóstico y prototipo para crear productos a medida. Finalista entre 1.300 participantes; en 2026 la retomé como HÄBIT.</p>
+          <a class="subraya" href="https://malenagch.github.io/Portfolio/docs/habit-garnierluxe.pdf" target="_blank" rel="noopener" style="align-self: flex-start; padding: 10px 0; font-size: 15px; font-weight: 600; color: #4A1222; text-decoration: none;">Ver HÄBIT ↗</a>
+        </div>
+        <button type="button" onClick="{{ p0.pick }}" onFocus="{{ p0.pick }}" aria-expanded="{{ p0.exp }}" aria-label="Abrir proyecto HÄBIT" style="position: absolute; inset: 0; background: transparent; border: 0; cursor: pointer; display: {{ p0.btn }};"></button>
+      </article>
+
+      <article class="panel" onMouseEnter="{{ p1.pick }}" style="flex-grow: {{ p1.grow }}; transform: {{ p1.tf }}; background: #F7D2B2; color: #4A2410;">
+        <div class="vertical" style="position: absolute; left: 24px; bottom: 28px; writing-mode: vertical-rl; transform: rotate(180deg); font-size: 22px; font-weight: 600; white-space: nowrap; opacity: {{ p1.vop }};">La Dicha Marbana</div>
+        <div class="detalle" style="position: absolute; inset: 0; padding: 32px; display: flex; flex-direction: column; gap: 14px; opacity: {{ p1.op }}; transform: {{ p1.dt }};">
+          <div style="font-size: 13px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #B4470C;">Máster · proyecto final · 2026</div>
+          <h3 style="margin: auto 0 0; font-size: 38px; font-weight: 700; line-height: 1.06; letter-spacing: -0.025em; color: #FFFFFF;">La Dicha <b style="font-weight: 700;">Marbana</b></h3>
+          <p style="margin: 0; font-size: 16px; line-height: 1.55; max-width: 46ch;">Rediseño de la experiencia digital de una quesería artesanal. Entrevisté a 16 clientes antes de diseñar, y las 7 personas de la prueba completaron las tareas sin ayuda.</p>
+          <a class="subraya" href="https://ladichamarbana-code.github.io/ladicha/" target="_blank" rel="noopener" style="align-self: flex-start; padding: 10px 0; font-size: 15px; font-weight: 600; color: #4A2410; text-decoration: none;">Ver prototipo ↗</a>
+        </div>
+        <button type="button" onClick="{{ p1.pick }}" onFocus="{{ p1.pick }}" aria-expanded="{{ p1.exp }}" aria-label="Abrir proyecto La Dicha Marbana" style="position: absolute; inset: 0; background: transparent; border: 0; cursor: pointer; display: {{ p1.btn }};"></button>
+      </article>
+
+      <article class="panel" onMouseEnter="{{ p2.pick }}" style="flex-grow: {{ p2.grow }}; transform: {{ p2.tf }}; background: #E2A02A; color: #2A1D05;">
+        <div class="vertical" style="position: absolute; left: 24px; bottom: 28px; writing-mode: vertical-rl; transform: rotate(180deg); font-size: 22px; font-weight: 600; white-space: nowrap; opacity: {{ p2.vop }};">PUMA NITRO</div>
+        <div class="detalle" style="position: absolute; inset: 0; padding: 32px; display: flex; flex-direction: column; gap: 14px; opacity: {{ p2.op }}; transform: {{ p2.dt }};">
+          <div style="font-size: 13px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #6B3A05;">Puma Challenge · ganadora · 2022</div>
+          <h3 style="margin: auto 0 0; font-size: 38px; font-weight: 700; line-height: 1.06; letter-spacing: -0.025em;">PUMA <b style="font-weight: 700;">NITRO</b></h3>
+          <p style="margin: 0; font-size: 16px; line-height: 1.55; max-width: 46ch;">Propuesta de lanzamiento con foco en segmentación y buyer personas. Primer puesto en la competencia de la Universidad Austral.</p>
+          <a class="subraya" href="https://malenagch.github.io/Portfolio/docs/puma-challenge.pdf" target="_blank" rel="noopener" style="align-self: flex-start; padding: 10px 0; font-size: 15px; font-weight: 600; color: #2A1D05; text-decoration: none;">Ver presentación ↗</a>
+        </div>
+        <button type="button" onClick="{{ p2.pick }}" onFocus="{{ p2.pick }}" aria-expanded="{{ p2.exp }}" aria-label="Abrir proyecto PUMA NITRO" style="position: absolute; inset: 0; background: transparent; border: 0; cursor: pointer; display: {{ p2.btn }};"></button>
+      </article>
+
+      <article class="panel" onMouseEnter="{{ p3.pick }}" style="flex-grow: {{ p3.grow }}; transform: {{ p3.tf }}; background: #F06A1E; color: #2B1206;">
+        <div class="vertical" style="position: absolute; left: 24px; bottom: 28px; writing-mode: vertical-rl; transform: rotate(180deg); font-size: 22px; font-weight: 600; white-space: nowrap; opacity: {{ p3.vop }};">Bombay Clothing</div>
+        <div class="detalle" style="position: absolute; inset: 0; padding: 32px; display: flex; flex-direction: column; gap: 14px; opacity: {{ p3.op }}; transform: {{ p3.dt }};">
+          <div style="font-size: 13px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #3B1606;">Marca propia · 2022–2023</div>
+          <h3 style="margin: auto 0 0; font-size: 38px; font-weight: 700; line-height: 1.06; letter-spacing: -0.025em;">Bombay <b style="font-weight: 700;">Clothing</b></h3>
+          <p style="margin: 0; font-size: 16px; line-height: 1.55; max-width: 46ch;">Creé la marca y llevé la web, las redes, los contenidos, el stock, los precios y las ventas.</p>
+          <a class="subraya" href="https://bombay38.webnode.page" target="_blank" rel="noopener" style="align-self: flex-start; padding: 10px 0; font-size: 15px; font-weight: 600; color: #2B1206; text-decoration: none;">Ver sitio ↗</a>
+        </div>
+        <button type="button" onClick="{{ p3.pick }}" onFocus="{{ p3.pick }}" aria-expanded="{{ p3.exp }}" aria-label="Abrir proyecto Bombay Clothing" style="position: absolute; inset: 0; background: transparent; border: 0; cursor: pointer; display: {{ p3.btn }};"></button>
+      </article>
+    </div>
+    <canvas class="capa" ref="{{ puntos4Ref }}" aria-hidden="true" style="z-index: 2;"></canvas>
+    </div>
+
+    <p class="aparece" style="margin: 0; font-size: 16px; color: #5F584F;">También en el máster: <a href="https://ladichamarbana-code.github.io/SafeBite/" target="_blank" rel="noopener" style="font-weight: 600;">SafeBite</a>, concepto de app para personas con alergias, y <a href="https://malenagch.github.io/Portfolio/free2move-growth-strategy.html" target="_blank" rel="noopener" style="font-weight: 600;">Free2move</a>, estrategia de crecimiento para carsharing en Madrid.</p>
+  </section>
+
+  <!-- FORMACIÓN -->
+  <section style="background: #F5EFE6;">
+    <div style="max-width: 1200px; margin: 0 auto; padding: 64px max(20px, 4vw); display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 32px;">
+      <div class="aparece" style="display: flex; flex-direction: column; gap: 6px;">
+        <div style="font-size: 13px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #5F584F;">Posgrado</div>
+        <div style="font-size: 22px; font-weight: 500; letter-spacing: -0.01em;">Máster en Marketing Digital</div>
+        <div style="font-size: 15px; color: #5F584F;">Universidad Villanueva, España · 2025–2026</div>
+      </div>
+      <div class="aparece" style="display: flex; flex-direction: column; gap: 6px;">
+        <div style="font-size: 13px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #5F584F;">Grado</div>
+        <div style="font-size: 22px; font-weight: 500; letter-spacing: -0.01em;">Lic. en Comunicación Social</div>
+        <div style="font-size: 15px; color: #5F584F;">Universidad Austral · 2019–2024</div>
+      </div>
+      <div class="aparece" style="display: flex; flex-direction: column; gap: 6px;">
+        <div style="font-size: 13px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #5F584F;">Idiomas</div>
+        <div style="font-size: 22px; font-weight: 500; letter-spacing: -0.01em;">Español nativo · Inglés C2</div>
+        <div style="font-size: 15px; color: #5F584F;">Cambridge Proficiency (CPE)</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACTO -->
+  <section id="contacto" style="position: relative; overflow: hidden; background: linear-gradient(160deg, #F7893A 0%, #F06A1E 50%, #D9560F 100%); color: #2B1206;">
+    <canvas class="capa" ref="{{ puntos5Ref }}" aria-hidden="true"></canvas>
+    <div style="position: relative; max-width: 1200px; margin: 0 auto; padding: 104px max(20px, 4vw); display: flex; flex-wrap: wrap; gap: 48px 64px; align-items: flex-end; pointer-events: none;">
+      <div class="aparece" style="flex: 1 1 460px; min-width: 0; display: flex; flex-direction: column; gap: 18px;">
+        <h2 style="margin: 0; font-size: clamp(46px, 6.6vw, 96px); font-weight: 700; line-height: 0.98; letter-spacing: -0.045em; color: #FFFFFF;">¿Seguimos la <b style="font-weight: 700; color: #2B1206;">conversación</b>?</h2>
+        <p style="margin: 0; font-size: 18px; max-width: 40ch;">Disponibilidad inmediata · CABA, Argentina</p>
+      </div>
+      <div class="aparece" style="flex: 1 1 360px; min-width: 0; display: flex; flex-direction: column; pointer-events: auto;">
+        <a href="mailto:malena.gch@gmail.com" style="display: flex; justify-content: space-between; align-items: center; gap: 12px; min-height: 60px; border-bottom: 1px solid rgba(43,18,6,0.3); font-size: 18px; font-weight: 500; color: #2B1206; text-decoration: none;"><span>malena.gch@gmail.com</span><span style="font-size: 13px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;">Email</span></a>
+        <a href="https://www.linkedin.com/in/malena-gonzales-chaves" target="_blank" rel="noopener" style="display: flex; justify-content: space-between; align-items: center; gap: 12px; min-height: 60px; border-bottom: 1px solid rgba(43,18,6,0.3); font-size: 18px; font-weight: 500; color: #2B1206; text-decoration: none;"><span>linkedin.com/in/malena-gonzales-chaves</span><span style="font-size: 13px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;">LinkedIn</span></a>
+        <a href="https://wa.me/5491139488084" target="_blank" rel="noopener" style="display: flex; justify-content: space-between; align-items: center; gap: 12px; min-height: 60px; border-bottom: 1px solid rgba(43,18,6,0.3); font-size: 18px; font-weight: 500; color: #2B1206; text-decoration: none;"><span>+54 9 11 3948 8084</span><span style="font-size: 13px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;">WhatsApp</span></a>
+        <a class="btn" href="./assets/55f795012bedbc2b9b82591c36684ccb.pdf" target="_blank" rel="noopener" style="margin-top: 24px; align-self: flex-start; display: inline-flex; align-items: center; gap: 10px; min-height: 48px; padding: 0 26px; border-radius: 999px; background: #2B1206; color: #FFF7F0; font-size: 16px; font-weight: 600; text-decoration: none;">Ver CV
+          <svg aria-hidden="true" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 11L11 5M6 5h5v5"></path></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <footer style="background: #1D1A17; color: #B9B1A7;">
+    <div style="max-width: 1200px; margin: 0 auto; padding: 24px max(20px, 4vw); display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: 14px;">
+      <span>Malena Gonzales Chaves · CABA, Argentina</span>
+      <span>Portfolio personal · 2026</span>
+    </div>
+  </footer>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":6400}}'>
+class Component extends DCLogic {
+  state = { active: 0, flipped: false };
+
+  componentDidMount() {
+    this._alive = true;
+    try { this._reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) { this._reduced = false; }
+    this._swing = { th: this._reduced ? 0 : 1.05, om: 0 };
+    this._mouse = { x: -9999, y: -9999 };
+    const warm = [
+      { y0: 0.26, tilt: -0.2, amp: 0.09, ph: 0.0, w: 0.15, twist: 1.1, threads: 30, dots: 112, cols: ['#F06A1E', '#F7A35C'] },
+      { y0: 0.7, tilt: -0.14, amp: 0.08, ph: 2.2, w: 0.12, twist: 0.9, threads: 24, dots: 100, cols: ['#E2738C', '#F2B3C1'] },
+      { y0: 0.9, tilt: -0.08, amp: 0.05, ph: 4.1, w: 0.08, twist: 1.35, threads: 18, dots: 90, cols: ['#E2A02A', '#F2CC7A'] }
+    ];
+    const light = [
+      { y0: 0.22, tilt: -0.16, amp: 0.08, ph: 1.0, w: 0.13, twist: 1.0, threads: 26, dots: 104, cols: ['#FFF4EA', '#FFD2B0'] },
+      { y0: 0.8, tilt: -0.1, amp: 0.07, ph: 3.0, w: 0.1, twist: 1.25, threads: 20, dots: 92, cols: ['#FFE3EA', '#F8C3CF'] }
+    ];
+    const bands = [
+      { y0: 0.45, tilt: -0.18, amp: 0.16, ph: 0.6, w: 0.22, twist: 1.2, threads: 24, dots: 120, cols: ['#F06A1E', '#F7A35C'] },
+      { y0: 0.6, tilt: 0.12, amp: 0.12, ph: 2.6, w: 0.14, twist: 0.9, threads: 16, dots: 110, cols: ['#E2738C', '#F2B3C1'] }
+    ];
+    const glass = [
+      { y0: 0.35, tilt: -0.2, amp: 0.1, ph: 0.4, w: 0.16, twist: 1.1, threads: 22, dots: 96, cols: ['#FFFFFF', '#FFF1E6'] },
+      { y0: 0.78, tilt: -0.1, amp: 0.08, ph: 2.9, w: 0.1, twist: 1.3, threads: 16, dots: 84, cols: ['#FFFFFF', '#FFE7EE'] }
+    ];
+    this._fields = [];
+    const add = (el, ribbons, o) => { if (el) this._fields.push(this.makeDots(el, ribbons, o)); };
+    add(this._p1, warm, { alpha: 1, dust: 90 });
+    add(this._p2, light, { alpha: 0.85, dust: 60 });
+    add(this._p3, bands, { alpha: 0.9, dust: 30 });
+    add(this._p4, glass, { alpha: 0.42, dust: 0 });
+    add(this._p5, light, { alpha: 0.75, dust: 50 });
+    this._onMove = (e) => { this._mouse.x = e.clientX; this._mouse.y = e.clientY; if (this._drag) this.dragTo(e); };
+    this._onUp = () => { this._drag = false; };
+    window.addEventListener('pointermove', this._onMove, { passive: true });
+    window.addEventListener('pointerup', this._onUp);
+    window.addEventListener('pointercancel', this._onUp);
+    this._ro = new ResizeObserver((entries) => { for (const en of entries) { const f = this._fields.find((x) => x.canvas === en.target); if (f) f.resize(); } });
+    this._io = new IntersectionObserver((entries) => { for (const en of entries) { const f = this._fields.find((x) => x.canvas === en.target); if (f) f.visible = en.isIntersecting; } });
+    for (const f of this._fields) { this._ro.observe(f.canvas); this._io.observe(f.canvas); f.resize(); }
+    if (this._reduced) { for (const f of this._fields) f.draw(4, this._mouse, true); this.applySwing(); return; }
+    this._t0 = performance.now(); this._last = this._t0;
+    const loop = (now) => {
+      if (!this._alive) return;
+      const dt = Math.min(0.033, (now - this._last) / 1000); this._last = now;
+      const t = (now - this._t0) / 1000;
+      for (const f of this._fields) if (f.visible) f.draw(t, this._mouse, false);
+      this.stepSwing(dt, t);
+      this._raf = requestAnimationFrame(loop);
+    };
+    this._raf = requestAnimationFrame(loop);
+  }
+
+  componentWillUnmount() {
+    this._alive = false;
+    cancelAnimationFrame(this._raf);
+    window.removeEventListener('pointermove', this._onMove);
+    window.removeEventListener('pointerup', this._onUp);
+    window.removeEventListener('pointercancel', this._onUp);
+    if (this._ro) this._ro.disconnect();
+    if (this._io) this._io.disconnect();
+  }
+
+  // Cintas de puntos: hilos de puntos que se tuercen y fluyen; el cursor los separa.
+  makeDots(canvas, ribbonsIn, opts) {
+    const ctx = canvas.getContext('2d');
+    const hash = (n) => { const x = Math.sin(n * 91.3458) * 47453.5453; return x - Math.floor(x); };
+    const sprite = (hex) => {
+      const c = document.createElement('canvas'); c.width = 32; c.height = 32;
+      const g = c.getContext('2d'); const gr = g.createRadialGradient(16, 16, 0, 16, 16, 16);
+      gr.addColorStop(0, hex); gr.addColorStop(0.55, hex); gr.addColorStop(1, hex + '00');
+      g.fillStyle = gr; g.fillRect(0, 0, 32, 32); return c;
+    };
+    const ribbons = ribbonsIn.map((r) => Object.assign({}, r));
+    const A = opts.alpha;
+    for (const r of ribbons) r.sprites = r.cols.map(sprite);
+    const dust = Array.from({ length: opts.dust }, (_, i) => ({ x: hash(i * 1.3), y: hash(i * 2.7 + 1), s: 1 + hash(i * 4.1) * 2, p: hash(i * 7.9) * 6.28, c: i % 3 }));
+    const N = 160;
+    const cx = new Float32Array(N), cy = new Float32Array(N), nx = new Float32Array(N), ny = new Float32Array(N);
+    const d = { canvas, visible: true, w: 1, h: 1 };
+    d.resize = () => {
+      const r = canvas.getBoundingClientRect();
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      d.w = Math.max(1, r.width); d.h = Math.max(1, r.height);
+      canvas.width = Math.round(d.w * dpr); canvas.height = Math.round(d.h * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    };
+    d.draw = (t, m, still) => {
+      const W = d.w, H = d.h;
+      ctx.clearRect(0, 0, W, H);
+      const rect = canvas.getBoundingClientRect();
+      const mx = m.x - rect.left, my = m.y - rect.top;
+      const R = 130;
+      const intro = still ? 1 : Math.min(1, t / 2.4);
+      const reveal = 1 - Math.pow(1 - intro, 3);
+      ribbons.forEach((rb, ri) => {
+        for (let i = 0; i < N; i++) {
+          const s = i / (N - 1);
+          cx[i] = W * (-0.08 + 1.16 * s);
+          cy[i] = H * (rb.y0 + rb.tilt * (s - 0.5) + rb.amp * Math.sin(s * 5.6 + t * 0.31 + rb.ph) + rb.amp * 0.5 * Math.sin(s * 10 - t * 0.23 + rb.ph * 0.7));
+        }
+        for (let i = 0; i < N; i++) {
+          const a = Math.max(0, i - 1), b = Math.min(N - 1, i + 1);
+          const tx = cx[b] - cx[a], ty = cy[b] - cy[a], l = Math.hypot(tx, ty) || 1;
+          nx[i] = -ty / l; ny[i] = tx / l;
+        }
+        const half = H * rb.w;
+        for (let j = 0; j < rb.threads; j++) {
+          const v = -1 + (2 * (j + 0.5)) / rb.threads + (hash(j * 3.1 + ri * 17) - 0.5) * (1.4 / rb.threads);
+          const seed = hash(j * 1.731 + ri * 17);
+          for (let k = 0; k < rb.dots; k++) {
+            let s = (k + t * 0.9 + seed * rb.dots) / rb.dots; s -= Math.floor(s);
+            if (s > reveal * 1.15 - seed * 0.12) continue;
+            const fi = s * (N - 1), i0 = Math.min(N - 2, Math.floor(fi)), f = fi - i0;
+            const px0 = cx[i0] + (cx[i0 + 1] - cx[i0]) * f, py0 = cy[i0] + (cy[i0 + 1] - cy[i0]) * f;
+            const qx = nx[i0], qy = ny[i0];
+            const th = rb.twist * s * 6.283 + t * 0.25 + rb.ph + 0.5 * Math.sin(s * 5 + t * 0.3);
+            const ct = Math.cos(th), st = Math.sin(th);
+            const z = v * st;
+            const across = v * half * ct * (1 + 0.18 * z);
+            let px = px0 + qx * across, py = py0 + qy * across;
+            const dx = px - mx, dy = py - my, dd = Math.hypot(dx, dy);
+            if (dd < R && dd > 0.01) { const push = Math.pow(1 - dd / R, 2) * 46; px += (dx / dd) * push; py += (dy / dd) * push; }
+            const fold = Math.pow(1 - Math.abs(ct), 5);
+            const edge = Math.min(1, s / 0.07, (1 - s) / 0.07);
+            const depth = z * 0.5 + 0.5;
+            const size = (1.1 + 1.4 * depth) * (1 + fold * 0.7);
+            ctx.globalAlpha = Math.min(1, (0.16 + 0.42 * depth + fold * 0.32) * edge * A);
+            ctx.drawImage(depth > 0.55 ? rb.sprites[0] : rb.sprites[1], px - size, py - size, size * 2, size * 2);
+          }
+        }
+      });
+      for (const p of dust) {
+        const x = p.x * W + Math.sin(t * 0.21 + p.p) * 18, y = p.y * H + Math.cos(t * 0.17 + p.p) * 14;
+        ctx.globalAlpha = (0.12 + 0.3 * Math.pow(Math.max(0, Math.sin(t * 1.3 + p.p * 7)), 6)) * reveal * A;
+        const sp = ribbons[p.c % ribbons.length].sprites[0];
+        ctx.drawImage(sp, x - p.s, y - p.s, p.s * 2, p.s * 2);
+      }
+      ctx.globalAlpha = 1;
+    };
+    return d;
+  }
+
+  stepSwing(dt, t) {
+    const s = this._swing;
+    if (!this._drag) {
+      const breeze = 0.55 * Math.sin(t * 0.9) + 0.3 * Math.sin(t * 1.7 + 1.1);
+      const acc = -26 * Math.sin(s.th) - 1.1 * s.om + breeze;
+      s.om += acc * dt; s.th += s.om * dt;
+    }
+    if (s.th > 1.25) { s.th = 1.25; s.om *= -0.4; }
+    if (s.th < -1.25) { s.th = -1.25; s.om *= -0.4; }
+    this.applySwing();
+  }
+
+  applySwing() {
+    if (this._swingEl) this._swingEl.style.transform = 'rotate(' + this._swing.th.toFixed(4) + 'rad)';
+  }
+
+  dragTo(e) {
+    if (!this._swingEl) return;
+    const r = this._swingEl.parentElement.getBoundingClientRect();
+    const px = r.left + r.width / 2, py = r.top + 6;
+    const target = Math.atan2(-(e.clientX - px), Math.max(20, e.clientY - py));
+    const prev = this._swing.th;
+    this._swing.th += (Math.max(-1.25, Math.min(1.25, target)) - this._swing.th) * 0.35;
+    this._swing.om = (this._swing.th - prev) * 60;
+    if (Math.hypot(e.clientX - this._downX, e.clientY - this._downY) > 6) this._moved = true;
+  }
+
+  renderVals() {
+    const a = this.state.active;
+    const n = 4, ratio = 0.52, big = (ratio * (n - 1)) / (1 - ratio);
+    const panel = (i) => ({
+      grow: i === a ? big : 1,
+      tf: i === a ? 'rotateY(0deg)' : (i < a ? 'rotateY(8deg)' : 'rotateY(-8deg)'),
+      op: i === a ? 1 : 0,
+      vop: i === a ? 0 : 1,
+      dt: i === a ? 'translateY(0px)' : 'translateY(16px)',
+      exp: i === a ? 'true' : 'false',
+      btn: i === a ? 'none' : 'block',
+      pick: () => { if (this.state.active !== i) this.setState({ active: i }); }
+    });
+    return {
+      puntosRef: (el) => { this._p1 = el; },
+      puntos2Ref: (el) => { this._p2 = el; },
+      puntos3Ref: (el) => { this._p3 = el; },
+      puntos4Ref: (el) => { this._p4 = el; },
+      puntos5Ref: (el) => { this._p5 = el; },
+      swingRef: (el) => { this._swingEl = el; },
+      p0: panel(0), p1: panel(1), p2: panel(2), p3: panel(3),
+      cardFlip: this.state.flipped ? 'rotateY(180deg)' : 'rotateY(0deg)',
+      grab: (e) => { this._drag = true; this._moved = false; this._downX = e.clientX; this._downY = e.clientY; },
+      flip: () => { if (this._moved) { this._moved = false; return; } this.setState({ flipped: !this.state.flipped }); }
+    };
+  }
+}
+</script>
+
+
+</body>
+</html>
